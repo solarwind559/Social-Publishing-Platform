@@ -75,7 +75,7 @@ class CommentController extends Controller
         }
 
         $request->validate([
-            'content' => 'required|string|max:255',
+            'content' => 'required|string|min:3|max:255',
         ]);
 
         $comment->content = $request->input('content');

@@ -5,9 +5,26 @@
         </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-5">
-        <p class="mb-3"><a href="{{ route('dashboard') }}" class="text-blue-500 mt-4 inline-block">Back to Dashboard</a>
+        @if (session('success'))
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+                <strong class="font-bold">Success!</strong>
+                <span class="block sm:inline">{{ session('success') }}</span>
+                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
+                    <svg class="fill-current h-6 w-6 text-green-500" role="button" xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20">
+                        <title>Close</title>
+                        <path
+                            d="M14.348 5.652a1 1 0 10-1.414-1.414L10 7.172 7.066 4.238a1 1 0 10-1.414 1.414L8.586 10l-2.934 2.934a1 1 0 101.414 1.414L10 12.828l2.934 2.934a1 1 0 001.414-1.414L11.414 10l2.934-2.934z" />
+                    </svg>
+                </span>
+            </div>
+        @endif
+
+        <p class="mb-3"><a href="{{ route('dashboard') }}" class="text-blue-500 mt-4 inline-block">Back to
+                Dashboard</a>
         </p>
-        <div class="show-post mb-4 items-center justify-between mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 relative">
+        <div
+            class="show-post mb-4 items-center justify-between mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg p-4 relative">
             <div class="buttons absolute top-4 right-4 flex space-x-2">
                 @auth
                     @can('update', $post)
@@ -55,29 +72,34 @@
             @if ($post->comments->isEmpty())
                 <p class="mt-2">No comments yet</p>
             @else
-            @foreach ($post->comments as $comment)
-            <div class="comment flex items-center justify-between mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg p-4">
-                <div class="comment-content">
-                    <small>{{ $comment->created_at->format('F j, Y, H:i') }}</small>
-                    <p>
-                        <a href="{{ route('profile.show', $comment->user->id) }}"
-                           class="text-blue-500 font-bold">{{ $comment->user->name }}</a>
-                    <small> says:</small></p>
-                    <p class="mb-2">{{ $comment->content }}</p>
-                    <hr>
-                </div>
-                <div class="comment-edit-delete flex items-center space-x-2">
-                    @if (Auth::id() == $comment->user_id)
-                        <a href="{{ route('comments.edit', $comment->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
-                        <form action="{{ route('comments.destroy', $comment->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
-                        </form>
-                    @endif
-                </div>
-            </div>
-        @endforeach
+                @foreach ($post->comments as $comment)
+                    <div
+                        class="comment flex items-center justify-between mt-4 bg-white overflow-hidden shadow-sm sm:rounded-lg p-4">
+                        <div class="comment-content">
+                            <small>{{ $comment->created_at->format('F j, Y, H:i') }}</small>
+                            <p>
+                                <a href="{{ route('profile.show', $comment->user->id) }}"
+                                    class="text-blue-500 font-bold">{{ $comment->user->name }}</a>
+                                <small> says:</small>
+                            </p>
+                            <p class="mb-2">{{ $comment->content }}</p>
+                            <hr>
+                        </div>
+                        <div class="comment-edit-delete flex items-center space-x-2">
+                            @if (Auth::id() == $comment->user_id)
+                                <a href="{{ route('comments.edit', $comment->id) }}"
+                                    class="bg-yellow-500 text-white px-4 py-2 rounded">Edit</a>
+                                <form action="{{ route('comments.destroy', $comment->id) }}" method="POST"
+                                    style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit"
+                                        class="bg-red-500 text-white px-4 py-2 rounded">Delete</button>
+                                </form>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
 
             @endif
         </div>
@@ -86,7 +108,7 @@
 
         <div class="add-comment pb-8">
             @auth
-            <h2 class="text-xl font-bold mt-6">Join the conversation</h2>
+                <h2 class="text-xl font-bold mt-6">Join the conversation</h2>
                 <form action="{{ route('comments.store') }}" method="POST" class="mt-4">
                     @csrf
                     <textarea name="content" required class="w-full p-2 border rounded w-1/2 h-32"></textarea>

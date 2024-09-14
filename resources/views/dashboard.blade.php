@@ -44,7 +44,7 @@
                                 <h2 class="text-2xl font-bold mb-2">
                                     <a href="{{ route('posts.show', $post->id) }}" class="text-blue-500 hover:underline">{{ $post->title }}</a>
                                 </h2>
-                                <p class="text-gray-700 mb-4">{{ $post->content }}</p>
+                                <p class="text-gray-700 mb-4">{{ Str::limit($post->content, 100) }}</p>
                                 <p class="text-gray-500 text-sm mb-4">
                                     By <a href="{{ route('profile.show', $post->user->id) }}" class="text-blue-500 hover:underline">{{ $post->user->name }}</a>,
                                     <span>{{ $post->created_at->format('F j, Y, H:i') }}</span>

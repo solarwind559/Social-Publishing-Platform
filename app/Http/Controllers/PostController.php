@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function filterByCategory(Category $category)
     {
-        $posts = $category->posts()->with(['user', 'categories'])->orderBy('created_at', 'desc')->get();
+        $posts = $category->posts()->with(['user', 'categories'])->withCount('comments')->orderBy('created_at', 'desc')->get();
         $categories = Category::all();
         return view('dashboard', compact('posts', 'categories'));
     }
@@ -88,12 +88,9 @@ class PostController extends Controller
 
     public function update(Request $request, Post $post)
     {
-        \Log::info('Update method called');
-
         try {
             // Make sure the user is authorized to update the post
             $this->authorize('update', $post);
-            \Log::info('Authorization successful');
 
             $request->validate([
                 'title' => 'required|string|max:255',
@@ -101,21 +98,16 @@ class PostController extends Controller
                 'categories' => 'nullable|array',
                 'categories.*' => 'exists:categories,id', // Ensure each category exists
             ]);
-            \Log::info('Validation successful');
-
-            // Log the request data for debugging
-            \Log::info('Request data:', $request->all());
 
             $updated = $post->update([
                 'title' => $request->title,
                 'content' => $request->content,
             ]);
-            \Log::info('Post updated:', ['updated' => $updated]);
 
             $synced = $post->categories()->sync($request->input('categories', []));
-            \Log::info('Categories synced:', ['synced' => $synced]);
 
             return redirect()->route('posts.show', $post)->with('success', 'Post updated successfully.');
+
         } catch (\Exception $e) {
             \Log::error('An error occurred:', ['error' => $e->getMessage()]);
             return redirect()->route('posts.edit', $post)->with('error', 'An error occurred.');
@@ -131,7 +123,7 @@ class PostController extends Controller
 
         $post->delete();
 
-        return redirect()->route('dashboard')->with('success', 'Post deleted successfully.');
+        return redirect()->route('posts.myposts')->with('success', 'Post deleted successfully.');
     }
 
     public function search(Request $request)

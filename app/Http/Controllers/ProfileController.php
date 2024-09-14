@@ -81,9 +81,8 @@ class ProfileController extends Controller
     public function show($id): View
     {
         $user = User::findOrFail($id);
-        // return view('profile.show', compact('user'));
         $posts = $user->posts()->orderBy('created_at', 'desc')->get();
-    return view('profile.show', compact('user', 'posts'));
+        return view('profile.show', compact('user', 'posts'));
     }
 
 }

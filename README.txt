@@ -1,31 +1,24 @@
-### Install Laravel on command line, via composer:
-
-1. Run commands:
+## Make sure you have git installed on your computer.
+## Open the terminal and navigate to a folder where you want to save this project.
+## Run command:
 `
-composer create-project laravel/laravel:^10.0 leta
-composer require laravel/breeze --dev
-php artisan breeze:install
+git clone https://github.com/solarwind559/Social-Publishing-Platform.git
+
 `
-2. Pick options:
-" Which Breeze stack would you like to install?
-  Blade with Alpine ................................................................................................................ blade
-"
-"
-  Which testing framework do you prefer? [PHPUnit]
-  PHPUnit .............................................................................................................................. 0
-"
-
-3. Create a new database locally, in your DB management system.
-
-4. Configure your .env file to connect with your DB
-
-5. Open your Laravel project folder and run commands:
+## Navigate to the project directory and run commands:
 `
-php artisan migrate
-php artisan serve
+composer install
 npm install
-npm run dev
 
+`
+## Duplicate .env.example file and rename it to .env.
+## Create a database locally and edit the .env file to match your local database details
+## Run commands:
+`
+php artisan key:generate
 php artisan migrate
 php artisan db:seed
+php artisan serve
 `
+
+Follow link from artisan serve to view the page.
