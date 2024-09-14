@@ -55,7 +55,7 @@
                                     @endforeach
                                 </div>
                                 <hr class="mt-3">
-                                <a href="{{ url(route('posts.show', $post->id) . '#comments') }}" class="text-blue-500 hover:underline"><small class="mt-4">{{ $post->comments_count }} comments</small></a>
+                                <a href="{{ url(route('posts.show', $post->id) . '#comments') }}" class="text-blue-500 hover:underline"><small class="mt-4">{{ $post->comments_count ?? 0 }} comments</small></a>
                             </div>
                         @endforeach
                     @endif

@@ -109,7 +109,6 @@ class PostController extends Controller
             return redirect()->route('posts.show', $post)->with('success', 'Post updated successfully.');
 
         } catch (\Exception $e) {
-            \Log::error('An error occurred:', ['error' => $e->getMessage()]);
             return redirect()->route('posts.edit', $post)->with('error', 'An error occurred.');
         }
     }
@@ -129,9 +128,13 @@ class PostController extends Controller
     public function search(Request $request)
     {
         $keyword = $request->input('keyword');
-        $posts = Post::where('title', 'LIKE', "%{$keyword}%")
-                     ->orWhere('content', 'LIKE', "%{$keyword}%")
-                     ->get();
+
+        $posts = Post::with(['user', 'categories'])->withCount('comments')
+            ->where(function ($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%')
+                      ->orWhere('content', 'like', '%' . $keyword . '%');
+            })
+            ->get();
 
         $categories = Category::all();
 
