@@ -21,4 +21,4 @@ php artisan db:seed
 php artisan serve
 `
 
-Follow link from artisan serve to view the page.
+Follow link from artisan serve to view the page
