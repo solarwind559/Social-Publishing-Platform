@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class PostSeeder extends Seeder
+class PostsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -17,7 +17,6 @@ class PostSeeder extends Seeder
         //
         $users = User::all();
 
-        // Create posts for each user
         foreach ($users as $user) {
             Post::factory()
             ->count(2)
