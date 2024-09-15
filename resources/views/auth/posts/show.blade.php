@@ -83,7 +83,6 @@
                                 <small> says:</small>
                             </p>
                             <p class="mb-2">{{ $comment->content }}</p>
-                            <hr>
                         </div>
                         <div class="comment-edit-delete flex items-center space-x-2">
                             @if (Auth::id() == $comment->user_id)
