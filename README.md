@@ -4,7 +4,7 @@
 ``git clone https://github.com/solarwind559/Social-Publishing-Platform.git``
 
 **Navigate to the project directory and run commands:**  
-``composer install``
+``composer install``  
 ``npm install``
 
 **Duplicate .env.example file and rename it to .env.**
