@@ -35,19 +35,22 @@ class PostController extends Controller
         $categories = Category::all();
         return view('auth.posts.create', compact('categories'));
     }
-
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => 'required|string|max:255|min:3',
+            'content' => 'required|string|min:3',
             'categories' => 'nullable|array',
             'categories.*' => 'exists:categories,id',
         ]);
 
+        // Sanitize input data
+        $title = e($request->input('title'));
+        $content = e($request->input('content'));
+
         $post = Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
+            'title' => $title,
+            'content' => $content,
             'user_id' => Auth::id(),
         ]);
 
@@ -67,7 +70,7 @@ class PostController extends Controller
         $post->categories()->sync($categoryIds);
 
         return redirect()->route('posts.myposts')
-                        ->with('success', 'Post created successfully.');
+                         ->with('success', 'Post created successfully.');
     }
 
 
@@ -93,8 +96,8 @@ class PostController extends Controller
             $this->authorize('update', $post);
 
             $request->validate([
-                'title' => 'required|string|max:255',
-                'content' => 'required|string',
+                'title' => 'required|string|max:255|min:3',
+                'content' => 'required|string|min:3',
                 'categories' => 'nullable|array',
                 'categories.*' => 'exists:categories,id', // Ensure each category exists
             ]);

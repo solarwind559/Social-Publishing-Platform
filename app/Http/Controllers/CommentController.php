@@ -29,20 +29,22 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $request->validate([
-            'content' => 'required',
+            'content' => 'required|string|min:3',
             'post_id' => 'required|exists:posts,id',
         ]);
 
+        // Sanitize input data
+        $content = e($request->input('content'));
+
         Comment::create([
-            'content' => $request->content,
+            'content' => $content,
             'post_id' => $request->post_id,
             'user_id' => auth()->id(),
         ]);
 
         return redirect()->route('posts.show', $request->post_id);
-}
+    }
 
     /**
      * Display the specified resource.
@@ -68,14 +70,13 @@ class CommentController extends Controller
      */
     public function update(Request $request, Comment $comment)
     {
-        //
-    // Ensure the user is authorized to update the comment
+        // Make ssure the user is authorized to update the comment
         if (Auth::id() != $comment->user_id) {
             return redirect()->back()->with('error', 'Unauthorized access');
         }
 
         $request->validate([
-            'content' => 'required|string|min:3|max:255',
+            'content' => 'required|string|min:3',
         ]);
 
         $comment->content = $request->input('content');
