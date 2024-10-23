@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="container max-w-screen-lg mx-auto mt-5">
+    <div class="container max-w-screen-lg mx-auto mt-5 p-4">
         <div class="container">
             <h1 class="text-3xl font-bold">{{ $user->name }}</h1>
             <p class="mt-2 text-gray-700">{{ $user->profile->bio ?? '' }}</p>

@@ -4,7 +4,7 @@
             {{ __('Create a New Post') }}
         </h2>
     </x-slot>
-    <div class="container max-w-screen-lg mx-auto mt-5">
+    <div class="container max-w-screen-lg mx-auto mt-5 p-4">
         <p class="mb-3"><a href="{{ route('dashboard') }}" class="text-blue-500 hover:underline">Back to Dashboard</a></p>
         @if ($errors->any())
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
