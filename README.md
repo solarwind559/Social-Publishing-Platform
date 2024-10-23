@@ -21,7 +21,7 @@
 Only registered users can view portal.
 
 A registered user can:
-- create a profile, log out and log in again
+- create a profile, log out and log in again, reset password
 - edit and visit own public profile
 - view all posts by all users with newest posts first
 - sort posts by categories
@@ -32,3 +32,5 @@ A registered user can:
 - visit another user's profile and see all posts by the user
 - visit page to view all own posts created with newest posts first
 
+**Demo:**
+https://byfaxxuv.a2hosted.com/
